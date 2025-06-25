@@ -1,4 +1,5 @@
 from typing import NamedTuple, Any, Callable
+from jaxtyping import Array, Float
 from jax import vmap, jacfwd, grad, jacobian, numpy as jnp
 
 from nioc import Env
@@ -7,15 +8,15 @@ from nioc import Env
 class LQRSpec(NamedTuple):
     """LQR specification"""
 
-    Q: jnp.ndarray
-    q: jnp.ndarray
-    Qf: jnp.array
-    qf: jnp.array
-    P: jnp.ndarray
-    R: jnp.ndarray
-    r: jnp.ndarray
-    A: jnp.ndarray
-    B: jnp.ndarray
+    Q: Float[Array, "T state state"]
+    q: Float[Array, "T state"]
+    Qf: Float[Array, "state state"]
+    qf: Float[Array, " state"]
+    P: Float[Array, "T action state"]
+    R: Float[Array, "T action action"]
+    r: Float[Array, "T action"]
+    A: Float[Array, "T state state"]
+    B: Float[Array, "T state action"]
 
 
 def make_lqr_approx(p: Env, params: Any) -> Callable:
@@ -47,21 +48,21 @@ def make_lqr_approx(p: Env, params: Any) -> Callable:
 class LQGSpec(NamedTuple):
     """ LQG specification """
 
-    Q: jnp.ndarray
-    q: jnp.ndarray
-    Qf: jnp.array
-    qf: jnp.array
-    P: jnp.ndarray
-    R: jnp.ndarray
-    r: jnp.ndarray
-    A: jnp.ndarray
-    B: jnp.ndarray
-    V: jnp.ndarray
-    Cx: jnp.ndarray
-    Cu: jnp.ndarray
-    F: jnp.ndarray
-    W: jnp.ndarray
-    D: jnp.ndarray
+    Q: Float[Array, "T state state"]
+    q: Float[Array, "T state"]
+    Qf: Float[Array, "state state"]
+    qf: Float[Array, " state"]
+    P: Float[Array, "T action state"]
+    R: Float[Array, "T action action"]
+    r: Float[Array, "T action"]
+    A: Float[Array, "T state state"]
+    B: Float[Array, "T state action"]
+    V: Float[Array, "T state statenoise"]
+    Cx: Float[Array, "T state statenoise state"]
+    Cu: Float[Array, "T state statenoise action"]
+    F: Float[Array, "T obs state"]
+    W: Float[Array, "T obs obsnoise"]
+    D: Float[Array, "T obs obsnoise state"]
 
 
 def make_lqg_approx(p: Env, params: Any) -> Callable:
